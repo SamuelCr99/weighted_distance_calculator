@@ -28,7 +28,9 @@ class OwnTextBox:
     def __init__(self, node1, node2, screen, x_pos, y_pos):
         self.node1 = node1
         self.node2 = node2
-        self.tb = TextBox(screen, x_pos - 25, y_pos - 20, 800/COLS/2, 800/COLS/2, fontSize=20)
+        tb = TextBox(screen, x_pos - 25, y_pos - 20, 800/COLS/3, 800/COLS/3, fontSize=12)
+        tb.setText("1")
+        self.tb = tb
 
 def draw_grid(screen, width, height, rows, cols):
     for i in range(rows):
@@ -54,17 +56,17 @@ def draw_set_weights_screen(screen, nodes):
     for i, node in enumerate(nodes): 
         # Draw x axis
         x_pos = 800/(len(nodes)+1) * (i+1)
-        y_pos = 50
-        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/4)
+        y_pos = 20
+        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/8)
         text = font.render(str(node.node_id), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (int(x_pos), y_pos)
         screen.blit(text, textRect)
 
         # Draw y axis
-        x_pos = 50
+        x_pos = 20
         y_pos = 800/(len(nodes)+1) * (i+1)
-        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/4)
+        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/8)
         text = font.render(str(node.node_id), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (x_pos, int(y_pos))
