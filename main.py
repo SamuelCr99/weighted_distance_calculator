@@ -6,8 +6,8 @@ import pygame_widgets
 
 ROWS = 10
 COLS = 10
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 800
+WINDOW_WIDTH = 500
+WINDOW_HEIGHT = 500
 node_width = WINDOW_WIDTH / COLS
 grid_screen = True
 node_id_count = 0
@@ -103,8 +103,8 @@ def main():
     running = True
     nodes = []
 
-    Button(screen, 320, 730, 200, 50, text='Switch mode', onClick=lambda: set_grid_screen())
-    Button(screen, 550, 730, 200, 50, text='Calculate weighted distance', onClick=lambda: calculate_weighted_distance())
+    Button(screen, WINDOW_WIDTH - 450, WINDOW_WIDTH - 70, 200, 50, text='Switch mode', onClick=lambda: set_grid_screen())
+    Button(screen, WINDOW_HEIGHT - 250, WINDOW_WIDTH - 70, 200, 50, text='Calculate weighted distance', onClick=lambda: calculate_weighted_distance())
 
     while running:
         clock.tick(60)
