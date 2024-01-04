@@ -6,7 +6,9 @@ import pygame_widgets
 
 ROWS = 10
 COLS = 10
-node_width = 800 / COLS
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 800
+node_width = WINDOW_WIDTH / COLS
 grid_screen = True
 node_id_count = 0
 text_boxes_available = False
@@ -28,7 +30,7 @@ class OwnTextBox:
     def __init__(self, node1, node2, screen, x_pos, y_pos):
         self.node1 = node1
         self.node2 = node2
-        tb = TextBox(screen, x_pos - 25, y_pos - 20, 800/COLS/3, 800/COLS/3, fontSize=12)
+        tb = TextBox(screen, x_pos - 18, y_pos - 12, WINDOW_HEIGHT/COLS/3, WINDOW_HEIGHT/COLS/3, fontSize=12)
         tb.setText("1")
         self.tb = tb
 
@@ -40,9 +42,9 @@ def draw_grid(screen, width, height, rows, cols):
 
 def draw_nodes(screen, nodes):
     for node in nodes:
-        x_pos = node.col * 800 / COLS + 800/COLS/2
-        y_pos = node.row * 800 / ROWS + 800/ROWS/2
-        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/4)
+        x_pos = node.col * WINDOW_HEIGHT / COLS + WINDOW_HEIGHT/COLS/2
+        y_pos = node.row * WINDOW_HEIGHT / ROWS + WINDOW_HEIGHT/ROWS/2
+        pygame.draw.circle(screen, node.color, (x_pos, y_pos), WINDOW_HEIGHT/COLS/4)
         text = font.render(str(node.node_id), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (x_pos, y_pos)
@@ -55,9 +57,9 @@ def draw_set_weights_screen(screen, nodes):
     global text_boxes
     for i, node in enumerate(nodes): 
         # Draw x axis
-        x_pos = 800/(len(nodes)+1) * (i+1)
+        x_pos = WINDOW_HEIGHT/(len(nodes)+1) * (i+1)
         y_pos = 20
-        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/8)
+        pygame.draw.circle(screen, node.color, (x_pos, y_pos), WINDOW_HEIGHT/COLS/8)
         text = font.render(str(node.node_id), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (int(x_pos), y_pos)
@@ -65,8 +67,8 @@ def draw_set_weights_screen(screen, nodes):
 
         # Draw y axis
         x_pos = 20
-        y_pos = 800/(len(nodes)+1) * (i+1)
-        pygame.draw.circle(screen, node.color, (x_pos, y_pos), 800/COLS/8)
+        y_pos = WINDOW_HEIGHT/(len(nodes)+1) * (i+1)
+        pygame.draw.circle(screen, node.color, (x_pos, y_pos), WINDOW_HEIGHT/COLS/8)
         text = font.render(str(node.node_id), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (x_pos, int(y_pos))
@@ -76,8 +78,8 @@ def draw_set_weights_screen(screen, nodes):
     for i, node in enumerate(nodes):
         for j, node2 in enumerate(nodes):
             if node.node_id < node2.node_id:
-                x_pos = 800/(len(nodes)+1) * (i+1)
-                y_pos = 800/(len(nodes)+1) * (j+1)
+                x_pos = WINDOW_WIDTH/(len(nodes)+1) * (i+1)
+                y_pos = WINDOW_HEIGHT/(len(nodes)+1) * (j+1)
                 text_boxes.append(OwnTextBox(node, node2, screen, x_pos, y_pos))
 
 def calculate_weighted_distance():
@@ -96,7 +98,7 @@ def main():
     global text_boxes_available
     global text_boxes
     pygame.display.set_caption('Weighted distance calculator')
-    screen = pygame.display.set_mode((800, 800))
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     clock = pygame.time.Clock()
     running = True
     nodes = []
@@ -113,8 +115,8 @@ def main():
             # Press space
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 pos = pygame.mouse.get_pos()
-                row = pos[1] // (800 / ROWS)
-                col = pos[0] // (800 / COLS)
+                row = pos[1] // (WINDOW_WIDTH / ROWS)
+                col = pos[0] // (WINDOW_HEIGHT / COLS)
                 nodes.append(Node(row, col))
 
         if grid_screen:
@@ -124,7 +126,7 @@ def main():
                 text_boxes_available = False
                 text_boxes = []
             screen.fill((255, 255, 255))
-            draw_grid(screen, 800, 800, ROWS, COLS)
+            draw_grid(screen, WINDOW_WIDTH, WINDOW_HEIGHT, ROWS, COLS)
             draw_nodes(screen, nodes)
 
         elif not text_boxes_available:
