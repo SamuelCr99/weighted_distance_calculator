@@ -4,8 +4,8 @@ from pygame_widgets.button import Button
 from pygame_widgets.textbox import TextBox
 import pygame_widgets
 
-ROWS = 20
-COLS = 20
+ROWS = 10
+COLS = 10
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 800
 node_width = WINDOW_WIDTH / COLS
@@ -13,6 +13,7 @@ grid_screen = True
 node_id_count = 0
 text_boxes_available = False
 text_boxes = []
+node_colors = ['#008000', '#3f9f00', '#7fbf00', '#bfdf00', '#ffcc00', '#ff9900', '#ff6600', '#ff3300', '#ff0000']
 
 pygame.init()
 font = pygame.font.Font('freesansbold.ttf', 32)
@@ -22,16 +23,15 @@ class Node:
         global node_id_count
         self.row = row
         self.col = col
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) # Create a random color for node
+        self.color = node_colors[node_id_count]
         self.node_id = node_id_count
-        node_id_count += 1
 
 class OwnTextBox:
     def __init__(self, node1, node2, screen, x_pos, y_pos):
         self.node1 = node1
         self.node2 = node2
         tb = TextBox(screen, x_pos - 18, y_pos - 12, WINDOW_HEIGHT/COLS/3, WINDOW_HEIGHT/COLS/3, fontSize=12)
-        tb.setText("1")
+        tb.setText("0")
         self.tb = tb
 
 def draw_grid(screen, width, height, rows, cols):
@@ -49,6 +49,7 @@ def draw_nodes(screen, nodes):
         textRect = text.get_rect()
         textRect.center = (x_pos, y_pos)
         screen.blit(text, textRect)
+
 
 
 def draw_set_weights_screen(screen, nodes):
@@ -97,7 +98,6 @@ def main():
     global text_boxes_available
     global text_boxes
     global node_id_count
-
     pygame.display.set_caption('Weighted distance calculator')
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     clock = pygame.time.Clock()
@@ -120,9 +120,8 @@ def main():
                 col = pos[0] // (WINDOW_HEIGHT / COLS)
                 nodes.append(Node(row, col))
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_x:
-                nodes = []
-                node_id_count = 0
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_a:
+                node_id_count += 1
 
 
         if grid_screen:
